@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from books.models import Book, Review
 from django.views.generic import ListView, DetailView
 
@@ -22,3 +22,9 @@ def review(request, id):
     review = Review(body=body, book_id=id)
     review.save()
     return redirect('/book')
+
+
+def author(request, author):
+    books = Book.objects.filter(authors__name=author)
+    context = {'book_list': books, 'author': author}
+    return render(request, 'books/book_list.html', context)

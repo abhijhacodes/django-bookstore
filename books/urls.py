@@ -7,3 +7,6 @@ urlpatterns = [
     path('<int:id>/review', views.review, name='book.review'),
     path('<str:author>', views.author, name='author.books')
 ]
+
+
+# 11:48  - 84%

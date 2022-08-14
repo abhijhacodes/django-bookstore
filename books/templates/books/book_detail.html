@@ -1,12 +1,15 @@
-{% extends 'books/base.html' %} 
+{% extends 'base.html' %} 
 
 {% block title %}
    {{book.title}}
 {% endblock %}
 
+{% block pageTitle %}
+   {{book.title}}
+{% endblock %}
+
 {% block content %}
 <div class="w-10/12">
-  <h1 class="text-center text-4xl font-bold">{{ book.title }}</h1>
   <div class="flex justify-between mt-10">
     <div class="flex justify-between">
       <div class="w-3/12">
@@ -46,14 +49,14 @@
           <form method="POST" action="{% url 'book.review' book.id  %}">
             {% csrf_token %}
             <textarea
-              class="border-2 border-indigo-400 focus:border-4 rounded p-2 w-full bg-gray-300"
+              class="border-2 border-cyan-700 rounded p-2 w-full bg-gray-300"
               rows="5"
               name="review"
               placeholder="Write your review for this book here"
             ></textarea>
             <button
               type="submit"
-              class="float-right border rounded p-2 bg-gray-800 text-white"
+              class="float-right border rounded py-2 px-4 bg-green-700 text-white"
             >
               Submit
             </button>

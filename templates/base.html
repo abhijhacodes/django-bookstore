@@ -6,19 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/jpg" href="{{book.thumbnailUrl}}" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block pageTitle %}{% endblock %}</title>
   </head>
   <body class="bg-[#CAD5E2] font-sans">
     <nav class="p-4 flex justify-between bg-cyan-700 text-white w-full">
       <div class="flex flex-col justify-center">
-        <a href={% url 'books.all' %} class="font-bold">My Bookstore</a>
+        <a href={% url 'books.all' %} class="font-bold text-xl">My Bookstore 📚</a>
       </div>
 
-      <h1 class="text-2xl font-bold">{% block pageTitle %}{% endblock %}</h1>
+      <h1 class="text-2xl font-bold">{% block navTitle %}{% endblock %}</h1>
 
       <div class="flex justify-end">
         {% if user.is_authenticated  %}
-            <a href="/logout" class="py-2 px-4 rounded bg-orange-700 text-white">Logout</a>
+        <a href={% url 'logout' %} class="py-2 px-4 rounded bg-orange-700 text-white">Logout</a>
+        {% else %}
+        <a href={% url 'login' %} class="py-2 px-4 rounded bg-green-800 text-white">Login</a>
         {% endif %}
       </div>
     </nav>

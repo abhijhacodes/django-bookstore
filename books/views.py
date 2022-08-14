@@ -1,15 +1,14 @@
 from django.shortcuts import redirect, render
 from books.models import Book, Review
 from django.views.generic import ListView, DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class BookListView(LoginRequiredMixin, ListView):
+class BookListView(ListView):
     def get_queryset(self):
         return Book.objects.all()
 
 
-class BookDetailView(LoginRequiredMixin, DetailView):
+class BookDetailView(DetailView):
     model = Book
 
     def get_context_data(self, **kwargs):
@@ -19,9 +18,11 @@ class BookDetailView(LoginRequiredMixin, DetailView):
 
 
 def review(request, id):
-    body = request.POST['review']
-    review = Review(body=body, book_id=id)
-    review.save()
+    if request.user.is_authenticated:
+        body = request.POST['review']
+        newReview = Review(body=body, book_id=id, user=request.user)
+        newReview.save()
+
     return redirect('/book')
 
 

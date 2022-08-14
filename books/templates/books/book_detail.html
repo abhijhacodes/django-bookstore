@@ -1,6 +1,6 @@
 {% extends 'base.html' %} 
 
-{% block title %}
+{% block navTitle %}
    {{book.title}}
 {% endblock %}
 
@@ -33,7 +33,7 @@
           <p class="text-3xl underline">Authors</p>
            <div class="text-gray-800 mt-5">
             {% for author in book.authors.all %}
-              <a href={% url 'author.books' author %} class="text-blue-500 hover:text-blue-700 underline" target="__blank">
+              <a href={% url 'author.books' author %} class="text-cyan-700 hover:text-orange-700 underline" target="__blank">
                 {{author|urlize}}
               </a>  |  
             {% endfor %}
@@ -46,6 +46,7 @@
         </div>
 
         <div class="mt-10">
+          {% if user.is_authenticated %}
           <form method="POST" action="{% url 'book.review' book.id  %}">
             {% csrf_token %}
             <textarea
@@ -61,12 +62,23 @@
               Submit
             </button>
           </form>
+          {% else %}
+          <p>
+            <a href="{% url 'login' %}?next={{request.path}}" class="py-2 px-4 rounded bg-green-800 text-white">Login</a> to review this book
+          </p>
+          {% endif %}
         </div>
 
         <div class="mt-10">
           <p class="text-3xl underline">All reviews ({{reviews|length}})</p>
           {% for review in reviews %}
-          <p class="text-gray-800 mt-5">{{ review.body }}</p>
+          <div class="mt-5">
+            <div class="flex justify-between text-md text-gray-600">
+              <p>{{ review.user }}</p>
+              <p>{{ review.createdAt|timesince}} ago</p>
+            </div>
+            <p class="text-gray-800 text-lg">{{ review.body }}</p>
+          </div>
           {% endfor %}
         </div>
       </div>
